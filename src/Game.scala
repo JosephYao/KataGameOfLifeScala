@@ -13,14 +13,20 @@ class Game (liveCells: (Int, Int)*) {
         .flatMap(cellsHaveLiveNeighbourOnOneSide)
     }
 
-    def isAliveAfterTick(cellWithLiveNeighbours: ((Int, Int), List[(Int, Int)])) =
-      cellWithLiveNeighbours._2.length == 2 && liveCells.contains(cellWithLiveNeighbours._1) ||
-        cellWithLiveNeighbours._2.length == 3
+    val rulesToLive = List(
+      {cellWithLiveNeighbours: ((Int, Int), List[(Int, Int)]) =>
+        cellWithLiveNeighbours._2.length == 3},
+      {cellWithLiveNeighbours: ((Int, Int), List[(Int, Int)]) =>
+        cellWithLiveNeighbours._2.length == 2 && liveCells.contains(cellWithLiveNeighbours._1)}
+    )
 
-    val nextTickLiveCell = cellsHaveLiveNeighbourOnAllSides
-      .groupBy(cell => cell)
-      .filter(isAliveAfterTick)
-      .keys.toArray
+    val nextTickLiveCell = rulesToLive
+      .map(
+        cellsHaveLiveNeighbourOnAllSides
+          .groupBy(cell => cell)
+          .filter(_)
+          .keys)
+      .flatten
     new Game(nextTickLiveCell: _*)
   }
 
