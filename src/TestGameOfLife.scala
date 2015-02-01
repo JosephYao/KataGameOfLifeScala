@@ -12,4 +12,9 @@ class TestGameOfLife extends FunSuite {
     assert(!game.isCellAlive(0, 0))
   }
 
+  test ("cell is live if game created with this live cell") {
+    val game = new GameOfLife(List((0, 0)))
+    assert(game.isCellAlive(0, 0))
+  }
+
 }
