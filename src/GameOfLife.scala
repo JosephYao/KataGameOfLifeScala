@@ -1,7 +1,8 @@
 class GameOfLife(val liveCells: List[(Int, Int)]) {
 
   def tick: GameOfLife = {
-    val directions = List((-1, 0), (1, 0), (0, -1), (0, 1))
+    val directions = List((-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, -1))
+
     val cellsHaveLiveNeighbours = directions.flatMap(
       direction => liveCells.map(cell => (cell._1 + direction._1, cell._2 + direction._2)))
 
