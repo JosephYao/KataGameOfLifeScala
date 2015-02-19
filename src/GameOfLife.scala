@@ -8,7 +8,9 @@ class GameOfLife(val liveCells: List[(Int, Int)]) {
       direction => liveCells.map(cell => (cell._1 + direction._1, cell._2 + direction._2)))
 
     val liveCellsAfterTick = cellsHaveLiveNeighbours.groupBy(cell => cell).
-        filter(_._2.length == 2).
+        filter(cellWithLiveNeighbours =>
+                cellWithLiveNeighbours._2.length == 2 ||
+                cellWithLiveNeighbours._2.length == 3).
         keys.toList
 
     return new GameOfLife(liveCellsAfterTick)
