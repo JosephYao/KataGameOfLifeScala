@@ -1,12 +1,11 @@
 class GameOfLife(val liveCells: List[(Int, Int)]) {
 
   def tick: GameOfLife = {
-    val cellsHaveLiveRightNeighbour = liveCells.map(cell => (cell._1 - 1, cell._2))
-    val cellsHaveLiveLeftNeighbour = liveCells.map(cell => (cell._1 + 1, cell._2))
+    val directions = List((-1, 0), (1, 0), (0, -1), (0, 1))
+    val cellsHaveLiveNeighbours = directions.flatMap(
+      direction => liveCells.map(cell => (cell._1 + direction._1, cell._2 + direction._2)))
 
-    val liveCellsAfterTick =
-      (cellsHaveLiveRightNeighbour ::: cellsHaveLiveLeftNeighbour).
-        groupBy(cell => cell).
+    val liveCellsAfterTick = cellsHaveLiveNeighbours.groupBy(cell => cell).
         filter(_._2.length == 2).
         keys.toList
 
