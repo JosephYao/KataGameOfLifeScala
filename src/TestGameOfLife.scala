@@ -65,4 +65,9 @@ class TestGameOfLife extends FunSuite {
     assert(game.isCellAlive(0, 0))
   }
 
+  test ("a dead cell will not be live after tick given two live neighbours") {
+    val game = new GameOfLife(List((1, 0), (-1, 0))).tick
+    assert(!game.isCellAlive(0, 0))
+  }
+
 }

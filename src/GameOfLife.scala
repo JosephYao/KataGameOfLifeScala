@@ -9,7 +9,7 @@ class GameOfLife(val liveCells: List[(Int, Int)]) {
 
     val liveCellsAfterTick = cellsHaveLiveNeighbours.groupBy(cell => cell).
         filter(cellWithLiveNeighbours =>
-                cellWithLiveNeighbours._2.length == 2 ||
+                cellWithLiveNeighbours._2.length == 2 && liveCells.contains(cellWithLiveNeighbours._1) ||
                 cellWithLiveNeighbours._2.length == 3).
         keys.toList
 
